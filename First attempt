@@ -1,0 +1,135 @@
+from tkinter import *
+import math
+
+root = Tk()
+root.title( "Impermanent Loss Calculator")
+root.geometry("400x400")
+
+# Place labels for values
+Token_1_Initial_Label = Label(root, text = "Initial Price Token 1")
+Token_1_Initial_Label.grid(row = 1, column = 1)
+
+Token_2_Initial_Label = Label(root, text = "Initial Price Token 2")
+Token_2_Initial_Label.grid(row = 2, column = 1)
+
+Quantity_1_Initial = Label(root, text = "Initial Quantity Token 1")
+Quantity_1_Initial.grid(row = 3, column = 1)
+
+Quantity_2_Initial = Label(root, text = "Initial Quantity Token 2")
+Quantity_2_Initial.grid(row = 4, column = 1)
+
+Change_1_Initial = Label(root, text = "New Price Token 1")
+Change_1_Initial.grid(row = 5, column = 1)
+
+Change_2_Initial = Label(root, text = "New Price Token 2")
+Change_2_Initial.grid(row = 6, column = 1)
+
+
+# Allow entry of initial values
+entry_Token_1_Initial = Entry(root, text = "Initial Price Token 1")
+entry_Token_1_Initial.grid(row = 1, column = 2)
+
+entry_Token_2_Initial = Entry(root, text = "Initial Price Token 2")
+entry_Token_2_Initial.grid(row = 2, column = 2)
+
+entry_Quantity_1_Initial = Entry(root, text = "Quantity_1_Initial")
+entry_Quantity_1_Initial.grid(row = 3, column = 2)
+
+
+entry_Quantity_2_Initial = Entry(root, text = "Quantity_2_Initial")
+entry_Quantity_2_Initial.grid(row = 4, column = 2)
+
+entry_Change_1 = Entry(root, text = "Change_1")
+entry_Change_1.grid(row = 5, column = 2)
+
+entry_Change_2 = Entry(root, text = "Change_2")
+entry_Change_2.grid(row = 6, column = 2)
+
+#pull input 
+
+def get_vals():
+    global Token_1_Initial
+    Token_1_Initial = entry_Token_1_Initial.get()
+    global Token_2_Initial
+    Token_2_Initial = entry_Token_2_Initial.get()
+    global Quantity_1_Initial
+    Quantity_1_Initial = entry_Quantity_1_Initial.get()
+    global Quantity_2_Initial
+    Quantity_2_Initial = entry_Quantity_2_Initial.get()
+    global Change_1
+    Change_1 = entry_Change_1.get()
+    global Change_2
+    Change_2 = entry_Change_2.get()
+    
+    ### Convert to float
+    Token_1_Initial = float(Token_1_Initial)
+    print (Token_1_Initial)
+    Token_2_Initial = float(Token_2_Initial)
+    print (Token_2_Initial)
+    Quantity_1_Initial = float(Quantity_1_Initial)
+    print (Quantity_1_Initial)
+    Quantity_2_Initial = float(Quantity_2_Initial)
+    print (Quantity_1_Initial)
+    Change_1 = float(Change_1)
+    print (Change_1)
+    Change_2 = float(Change_2)
+    print (Change_2)
+    
+    #Perform Calcs
+    print (str(Quantity_1_Initial) + "q1")
+    print (str(Quantity_2_Initial)+ "q2")
+    
+    Constant_Product = Quantity_1_Initial * Quantity_2_Initial
+    print (str(Constant_Product)+"cp")
+
+
+    Initial_Ratio = Token_1_Initial/Token_2_Initial
+
+
+    Future_Ratio = Change_1 / Change_2
+    print("Future ratio " + str(Future_Ratio))
+
+    Future_Quantity_Token_1 = math.sqrt(Constant_Product/Future_Ratio)
+    print("Future Quantity Token 1-" +str(Future_Quantity_Token_1))
+
+    Future_Quantity_Token_2 = math.sqrt(Constant_Product*Future_Ratio)
+    print ("Future Quantity Token 2- " +str(Future_Quantity_Token_2))
+
+    FV_No_Interest = Future_Quantity_Token_1*Change_1 + Future_Quantity_Token_2*Change_2
+
+    Value_If_Held = Quantity_1_Initial*Change_1 + Quantinty_2_Initial*Change_2
+
+    Impermanent_Loss = Value_If_Held - FV_No_Interest
+    
+    ##Output Results
+    
+    Output_Loss = Label(root, text = "Impermanent Loss in $ = " + str(Impermanent_Loss))
+    Output_Loss.grid(row = 9, column = 1)
+    
+    Output_Quantity_1 = Label(root, text = "New quantity token 1 = " + str(Future_Quantity_Token_1))
+    Output_Quantity_1.grid(row = 9, column = 2)
+    
+    Output_Quantity_2 = Label(root, text = "New Quantity Token 2 = " + str(Future_Quantity_Token_2))
+    Output_Quantity_2.grid(row = 10, column = 1)
+    
+    FV = Label(root, text = "FV no interest = " + str(FV_No_Interest))
+    FV.grid(row = 10, column = 2)    
+    
+    myButton = Button(root, text = "press to exit", command = root.destroy)
+    myButton.grid(row = 11, column = 2)
+    
+    
+
+myButton = Button(root, text = "press to calculate", command = get_vals)
+myButton.grid(row = 7, column = 1)
+
+
+
+root.mainloop()
+
+
+print (Constant_Product)
+
+
+
+
